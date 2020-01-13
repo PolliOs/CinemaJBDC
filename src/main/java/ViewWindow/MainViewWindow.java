@@ -15,25 +15,30 @@ public class MainViewWindow extends  JFrame {
     private JButton hallsButton;
     private JButton moviesButton;
     private JButton sessionsButton;
-    private JButton editCurrentHallsButton;
     private JPanel sessionsPanel;
     private JButton backToMainButton1;
     private JButton changeCurrentHallButton;
     private JButton addHallButton;
     private JPanel addHallPanel;
     private JPanel editHallsPanel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField seastTextField1;
+    private JTextField priceTextField1;
+    private JTextField titleTextField1;
     private JButton saveNewHallButton;
     private JButton backToHallsButton1;
     private JPanel moviesPanel;
     private JComboBox comboBox1;
-    private JButton button1;
-    private JButton button2;
+    private JButton addNewHallButton;
+    private JButton backToHallsButton2;
     private JLabel seats1;
     private JLabel price1;
     private JLabel title1;
+    private JLabel title2;
+    private JLabel seats2;
+    private JLabel price2;
+    private JTextField titleTextField2;
+    private JTextField seatsTextField2;
+    private JTextField priceTextField2;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -91,9 +96,20 @@ public class MainViewWindow extends  JFrame {
                changeActivePanel(hallsPanel, addHallPanel);
            }
        });
+       backToHallsButton2.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               changeActivePanel(hallsPanel, editHallsPanel);
+           }
+       });
        addHallButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
                changeActivePanel(addHallPanel, hallsPanel);
+
+           }
+       });
+       changeCurrentHallButton.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               changeActivePanel(editHallsPanel, hallsPanel);
 
            }
        });
@@ -109,6 +125,7 @@ public class MainViewWindow extends  JFrame {
        frame.getContentPane().add(hallsPanel, "name_2");
        frame.getContentPane().add(moviesPanel, "name_3");
        frame.getContentPane().add(sessionsPanel, "name_4");
+       addHallPanel.setBackground(new Color(40,111,129));
        frame.getContentPane().add(addHallPanel, "name_5");
        frame.getContentPane().add(editHallsPanel, "name_6");
 
