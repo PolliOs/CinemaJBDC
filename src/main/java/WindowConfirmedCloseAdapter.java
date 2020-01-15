@@ -1,5 +1,3 @@
-package ViewWindow;
-
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -19,6 +17,12 @@ public class WindowConfirmedCloseAdapter extends WindowAdapter {
                 null);
 
         if(close == JOptionPane.YES_OPTION) {
+              /* if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }*/
             ((JFrame)e.getSource()).setDefaultCloseOperation(
                     JFrame.EXIT_ON_CLOSE);
         } else {

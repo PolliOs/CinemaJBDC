@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ViewWindow.MainViewWindow">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainViewWindow">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="11" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -79,7 +79,7 @@
               <text value="Назад"/>
             </properties>
           </component>
-          <grid id="a7cc6" binding="addHallPanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a7cc6" binding="addHallPanel" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -91,7 +91,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="c1e79" class="javax.swing.JTextField" binding="seastTextField1">
+              <component id="c1e79" class="javax.swing.JTextField" binding="seatsTextFieldInAddMode">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -115,28 +115,9 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
-              <component id="aac71" class="javax.swing.JTextField" binding="priceTextField1">
+              <component id="50e0d" class="javax.swing.JTextField" binding="titleTextFieldInAddMode">
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="bd484" class="javax.swing.JLabel" binding="price1">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-14127231"/>
-                  <font size="18"/>
-                  <foreground color="-16777216"/>
-                  <text value="Ціна"/>
-                </properties>
-              </component>
-              <component id="50e0d" class="javax.swing.JTextField" binding="titleTextField1">
-                <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
@@ -144,7 +125,7 @@
               </component>
               <component id="5c292" class="javax.swing.JLabel" binding="title1">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="18"/>
@@ -154,7 +135,7 @@
               </component>
               <component id="eb201" class="javax.swing.JButton" binding="backToHallsButton1">
                 <constraints>
-                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
                     <minimum-size width="200" height="40"/>
                     <preferred-size width="200" height="40"/>
                     <maximum-size width="200" height="40"/>
@@ -169,7 +150,7 @@
               </component>
               <component id="2527" class="javax.swing.JButton" binding="saveNewHallButton">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
                     <minimum-size width="200" height="40"/>
                     <preferred-size width="200" height="40"/>
                     <maximum-size width="200" height="40"/>
@@ -185,12 +166,12 @@
               </component>
               <hspacer id="de455">
                 <constraints>
-                  <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
             </children>
           </grid>
-          <grid id="5e7d6" binding="editHallsPanel" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="5e7d6" binding="editHallsPanel" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -200,7 +181,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="fe370" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+              <component id="fe370" class="javax.swing.JComboBox" binding="chooseHallcomboBox">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="9" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -226,16 +207,6 @@
                   <text value="Кількість місць"/>
                 </properties>
               </component>
-              <component id="f9beb" class="javax.swing.JLabel" binding="price2">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <font size="18"/>
-                  <foreground color="-16777216"/>
-                  <text value="Ціна"/>
-                </properties>
-              </component>
               <component id="e5d9e" class="javax.swing.JButton" binding="addNewHallButton">
                 <constraints>
                   <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
@@ -247,12 +218,13 @@
                 <properties>
                   <background color="-10900576"/>
                   <font size="20" style="1"/>
-                  <text value="Додати"/>
+                  <label value="Зберегти"/>
+                  <text value="Зберегти"/>
                 </properties>
               </component>
               <component id="df817" class="javax.swing.JButton" binding="backToHallsButton2">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <minimum-size width="200" height="40"/>
                     <preferred-size width="200" height="40"/>
                     <maximum-size width="200" height="40"/>
@@ -274,7 +246,7 @@
                   <text value="Оберіть зал"/>
                 </properties>
               </component>
-              <component id="54bd5" class="javax.swing.JTextField" binding="titleTextField2">
+              <component id="54bd5" class="javax.swing.JTextField" binding="titleTextFieldInEditMode">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="5" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="70" height="-1"/>
@@ -282,7 +254,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="99b92" class="javax.swing.JTextField" binding="seatsTextField2">
+              <component id="99b92" class="javax.swing.JTextField" binding="seatsTextFieldInEditMode">
                 <constraints>
                   <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="70" height="-1"/>
@@ -290,14 +262,28 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="43aef" class="javax.swing.JTextField" binding="priceTextField2">
+              <component id="21cbb" class="javax.swing.JButton" binding="deleteHall">
                 <constraints>
-                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="70" height="-1"/>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="150" height="40"/>
+                    <preferred-size width="150" height="40"/>
+                    <maximum-size width="150" height="40"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-10090233"/>
+                  <focusCycleRoot value="true"/>
+                  <font size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <label value="Видалити"/>
+                  <text value="Видалити"/>
+                </properties>
               </component>
+              <hspacer id="9d433">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
             </children>
           </grid>
           <hspacer id="db1b3">
