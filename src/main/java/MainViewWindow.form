@@ -3,21 +3,184 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="11" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1501" height="469"/>
+      <xy x="20" y="20" width="2635" height="679"/>
     </constraints>
     <properties>
       <background color="-14127231"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="67673" binding="moviesPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="67673" binding="moviesPanel" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-14127231"/>
+        </properties>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="58e6e" class="javax.swing.JButton" binding="genresEditButton">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="300" height="60"/>
+                <preferred-size width="300" height="60"/>
+                <maximum-size width="300" height="60"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-11520916"/>
+              <font name="JetBrains Mono" size="24"/>
+              <foreground color="-16777216"/>
+              <text value="Редагування жанрів"/>
+            </properties>
+          </component>
+          <grid id="9c117" binding="moviesEditPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14127231"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="6ec73" class="javax.swing.JButton" binding="button1" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Button"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="f2ff3" class="javax.swing.JButton" binding="moviesEditButton">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="300" height="60"/>
+                <preferred-size width="300" height="60"/>
+                <maximum-size width="300" height="60"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-11520916"/>
+              <font name="JetBrains Mono" size="24"/>
+              <foreground color="-16777216"/>
+              <text value="Редагування фільмів"/>
+            </properties>
+          </component>
+          <grid id="f5b04" binding="genresEditPanel" layout-manager="GridLayoutManager" row-count="5" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14127231"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="4afc0" class="javax.swing.JLabel" binding="addNewGenreLabel">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="6" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Введіть назву жанру"/>
+                </properties>
+              </component>
+              <component id="cbe44" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="5" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="250" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="b05af" class="javax.swing.JButton" binding="addGenreButton">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="200" height="40"/>
+                    <preferred-size width="200" height="40"/>
+                    <maximum-size width="200" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-10900576"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Додати"/>
+                </properties>
+              </component>
+              <component id="a388a" class="javax.swing.JButton" binding="backToMoviesFromGenresEdit">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="200" height="40"/>
+                    <preferred-size width="200" height="40"/>
+                    <maximum-size width="200" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-10900576"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Назад"/>
+                </properties>
+              </component>
+              <component id="e7fbb" class="javax.swing.JList" binding="genresList">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="5" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-7898522"/>
+                </properties>
+              </component>
+              <hspacer id="39f5f">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="cb1cc">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="bc2cc">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="532bc">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="a1c22" class="javax.swing.JLabel" binding="existedGenres">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Існуючі жанри"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="95fe6" class="javax.swing.JButton" binding="backToMainFromMovies">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="200" height="40"/>
+                <preferred-size width="200" height="40"/>
+                <maximum-size width="200" height="40"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-10900576"/>
+              <font name="Fira Code Medium" size="20" style="1"/>
+              <text value="Назад"/>
+            </properties>
+          </component>
+        </children>
       </grid>
       <grid id="d14a6" binding="hallsPanel" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
@@ -232,7 +395,7 @@
                 </constraints>
                 <properties>
                   <background color="-10900576"/>
-                  <font size="20" style="1"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
                   <text value="Назад"/>
                 </properties>
               </component>

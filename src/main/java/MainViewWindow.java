@@ -41,10 +41,23 @@ public class MainViewWindow extends  JFrame {
     private JTextField titleTextFieldInEditMode;
     private JTextField seatsTextFieldInEditMode;
     private JButton deleteHall;
+    private JButton genresEditButton;
+    private JPanel moviesEditPanel;
+    private JButton moviesEditButton;
+    private JPanel genresEditPanel;
+    private JButton backToMainFromMovies;
+    private JButton button1;
+    private JList<String> genresList;
+    private JTextField textField1;
+    private JButton addGenreButton;
+    private JButton backToMoviesFromGenresEdit;
+    private JLabel addNewGenreLabel;
+    private JLabel existedGenres;
     private HallsRequestHandler hallsHandler;
     private  MessageHandler messageHandler;
     private  Statement statement;
     private  Connection connection;
+    private GenresRequestHandler genresHandler;
 
 
     public MainViewWindow(Statement statement, Connection connection) {
@@ -56,6 +69,7 @@ public class MainViewWindow extends  JFrame {
 
     private void initialize(){
         hallsHandler = new HallsRequestHandler(statement, connection);
+        genresHandler = new GenresRequestHandler(statement, connection);
         messageHandler = new MessageHandler();
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,36 +80,16 @@ public class MainViewWindow extends  JFrame {
         frame.setSize(screenSize);
         changePanels();
         addPanelsToTheFrame();
-
-
+        updateGenresList();
     }
 
-    private void updateChoseHallComboBox() {
-        ArrayList<String> halls =
-        hallsHandler.updateChoseHallComboBox();
-        chooseHallcomboBox.removeAllItems();
-        for(String hallTitle: halls){
-            chooseHallcomboBox.addItem(hallTitle);
+    private void updateGenresList() {
+        DefaultListModel<String> model = new DefaultListModel<String>();
+        genresList.setModel(model);
+        String[] genres = genresHandler.getGenresList();
+        for (int i = 0; i < genres.length; i++) {
+            model.add(i, genres[i]);
         }
-        String selected = (String) chooseHallcomboBox.getSelectedItem();
-        updateTitleAndSeatsFields(selected);
-    }
-
-    private void updateTitleAndSeatsFields(String title) {
-        int numOfseats = hallsHandler.getSeatsByTitle(title);
-        titleTextFieldInEditMode.setText(title);
-        seatsTextFieldInEditMode.setText(Integer.toString(numOfseats));
-    }
-
-
-    private void addPanelsToTheFrame() {
-        frame.getContentPane().add(mainPanel, "name_1");
-        frame.getContentPane().add(hallsPanel, "name_2");
-        frame.getContentPane().add(moviesPanel, "name_3");
-        frame.getContentPane().add(sessionsPanel, "name_4");
-        addHallPanel.setBackground(new Color(40,111,129));
-        frame.getContentPane().add(addHallPanel, "name_5");
-        frame.getContentPane().add(editHallsPanel, "name_6");
     }
 
     private void buttonsProcessing() {
@@ -145,6 +139,19 @@ public class MainViewWindow extends  JFrame {
                 }else{
                     messageHandler.duplicateError("Зала");
                 }
+            }
+        });
+        deleteHall.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String title = titleTextFieldInEditMode.getText();
+                if(messageHandler.confirmDeleteHall() == 0) {
+                    if (hallsHandler.deleteHall(hallsHandler.getIdByTitle(title)) == 1) {
+                        updateChoseHallComboBox();
+                    }
+                }
+
             }
         });
     }
@@ -199,26 +206,65 @@ public class MainViewWindow extends  JFrame {
 
             }
         });
-        deleteHall.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                String title = titleTextFieldInEditMode.getText();
-                if(messageHandler.confirmDeleteHall() == 0) {
-                    if (hallsHandler.deleteHall(hallsHandler.getIdByTitle(title)) == 1) {
-                        updateChoseHallComboBox();
-                    }
-                }
-
+        moviesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeActivePanel(moviesPanel, mainPanel);
+            }
+        });
+        moviesEditButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeActivePanel(moviesEditPanel, moviesPanel);
+            }
+        });
+        genresEditButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeActivePanel(genresEditPanel, moviesPanel);
+            }
+        });
+        backToMainFromMovies.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeActivePanel(mainPanel, moviesPanel);
+            }
+        });
+        backToMoviesFromGenresEdit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeActivePanel(moviesPanel, genresEditPanel);
             }
         });
 
-    }
 
+    }
+    private void updateChoseHallComboBox() {
+        ArrayList<String> halls =
+                hallsHandler.updateChoseHallComboBox();
+        chooseHallcomboBox.removeAllItems();
+        for(String hallTitle: halls){
+            chooseHallcomboBox.addItem(hallTitle);
+        }
+        String selected = (String) chooseHallcomboBox.getSelectedItem();
+        updateTitleAndSeatsFields(selected);
+    }
     private void changeActivePanel(JPanel newPanel, JPanel previousPanel){
         newPanel.setVisible(true);
         previousPanel.setVisible(false);
     }
+    private void updateTitleAndSeatsFields(String title) {
+        int numOfseats = hallsHandler.getSeatsByTitle(title);
+        titleTextFieldInEditMode.setText(title);
+        seatsTextFieldInEditMode.setText(Integer.toString(numOfseats));
+    }
+    private void addPanelsToTheFrame() {
+        frame.getContentPane().add(mainPanel, "name_1");
+        frame.getContentPane().add(hallsPanel, "name_2");
+        frame.getContentPane().add(moviesPanel, "name_3");
+        frame.getContentPane().add(sessionsPanel, "name_4");
+        addHallPanel.setBackground(new Color(40,111,129));
+        frame.getContentPane().add(addHallPanel, "name_5");
+        frame.getContentPane().add(editHallsPanel, "name_6");
+        frame.getContentPane().add(moviesEditPanel, "name_7");
+        frame.getContentPane().add(genresEditPanel, "name_8");
+    }
+
 
 
 }
