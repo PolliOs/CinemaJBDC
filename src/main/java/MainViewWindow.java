@@ -1,3 +1,5 @@
+//import com.sun.org.apache.bcel.internal.generic.INEG;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +31,7 @@ public class MainViewWindow extends  JFrame {
     private JButton saveNewHallButton;
     private JButton backToHallsButton1;
     private JPanel moviesPanel;
-    private JComboBox chooseHallcomboBox;
+    private JComboBox<String> chooseHallcomboBox;
     private JButton addNewHallButton;
     private JButton backToHallsButton2;
     private JLabel seats1;
@@ -50,7 +52,6 @@ public class MainViewWindow extends  JFrame {
         this.connection = connection;
         initialize();
         buttonsProcessing();
-
     }
 
     private void initialize(){
@@ -66,30 +67,26 @@ public class MainViewWindow extends  JFrame {
         changePanels();
         addPanelsToTheFrame();
 
-/*        ArrayList<String> movies = new ArrayList<String>();
-        movies.add("Select a movie");
-        for (int i = 0; i < 5; i++) {
-            movies.add("Movie " + (i + 1));
-        }
-
-        DefaultComboBoxModel model1 = new DefaultComboBoxModel(movies.toArray());
-        chooseHallcomboBox = new JComboBox(model1);
-        chooseHallcomboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-
-                System.out.println(chooseHallcomboBox.getSelectedIndex());
-                if (chooseHallcomboBox.getSelectedIndex() == 0) {
-                   // timesCombo.setEnabled(false);
-                } else {
-                }
-            }
-
-        });*/
-
-
-       // petList.addActionListener(this);
 
     }
+
+    private void updateChoseHallComboBox() {
+        ArrayList<String> halls =
+        hallsHandler.updateChoseHallComboBox();
+        chooseHallcomboBox.removeAllItems();
+        for(String hallTitle: halls){
+            chooseHallcomboBox.addItem(hallTitle);
+        }
+        String selected = (String) chooseHallcomboBox.getSelectedItem();
+        updateTitleAndSeatsFields(selected);
+    }
+
+    private void updateTitleAndSeatsFields(String title) {
+        int numOfseats = hallsHandler.getSeatsByTitle(title);
+        titleTextFieldInEditMode.setText(title);
+        seatsTextFieldInEditMode.setText(Integer.toString(numOfseats));
+    }
+
 
     private void addPanelsToTheFrame() {
         frame.getContentPane().add(mainPanel, "name_1");
@@ -128,11 +125,26 @@ public class MainViewWindow extends  JFrame {
             }
         });
 
+        chooseHallcomboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                String selectedHallTitle = (String) chooseHallcomboBox.getSelectedItem();
+                updateTitleAndSeatsFields(selectedHallTitle);
+            }
+        });
         addNewHallButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                String prevHall = (String) chooseHallcomboBox.getSelectedItem();
+                String newTitle = titleTextFieldInEditMode.getText();
+                String newNumOfSeats = seatsTextFieldInEditMode.getText();
+                if(!hallsHandler.checkTitleForDuplicate(newTitle) || newTitle.equals(prevHall)){
+                    hallsHandler.updateHall(prevHall, newTitle, newNumOfSeats);
+                    updateChoseHallComboBox();
+                }else{
+                    messageHandler.duplicateError("Зала");
+                }
             }
         });
     }
@@ -183,6 +195,20 @@ public class MainViewWindow extends  JFrame {
         changeCurrentHallButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 changeActivePanel(editHallsPanel, hallsPanel);
+                updateChoseHallComboBox();
+
+            }
+        });
+        deleteHall.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String title = titleTextFieldInEditMode.getText();
+                if(messageHandler.confirmDeleteHall() == 0) {
+                    if (hallsHandler.deleteHall(hallsHandler.getIdByTitle(title)) == 1) {
+                        updateChoseHallComboBox();
+                    }
+                }
 
             }
         });

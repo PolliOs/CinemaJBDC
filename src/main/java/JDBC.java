@@ -8,7 +8,7 @@ import java.sql.*;
 import static java.lang.String.format;
 
 public class JDBC {
-    static final String DATABASE_URL = "jdbc:mysql://localhost/cinema?useSSL=fAlse";
+    static final String DATABASE_URL = "jdbc:mysql://localhost/cinema?useSSL=false&characterEncoding=Cp1251";
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
     static final String USER = "root";

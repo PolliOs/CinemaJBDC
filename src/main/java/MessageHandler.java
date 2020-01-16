@@ -13,4 +13,8 @@ public class MessageHandler {
     public void duplicateError(String value) {
         JOptionPane.showMessageDialog(null,  value + " з таким ім'ям вже існує." , "InfoBox: " + "Duplicate error", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public int confirmDeleteHall() {
+        return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей зал? Усі сеанси, які проводяться у цій залі також втратяться");
+    }
 }
