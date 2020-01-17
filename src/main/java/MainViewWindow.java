@@ -1,5 +1,3 @@
-//import com.sun.org.apache.bcel.internal.generic.INEG;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,11 +46,12 @@ public class MainViewWindow extends  JFrame {
     private JButton backToMainFromMovies;
     private JButton button1;
     private JList<String> genresList;
-    private JTextField textField1;
+    private JTextField genresToAddTextField;
     private JButton addGenreButton;
     private JButton backToMoviesFromGenresEdit;
     private JLabel addNewGenreLabel;
     private JLabel existedGenres;
+    private JButton deleteGenreButton;
     private HallsRequestHandler hallsHandler;
     private  MessageHandler messageHandler;
     private  Statement statement;
@@ -152,6 +151,39 @@ public class MainViewWindow extends  JFrame {
                     }
                 }
 
+            }
+        });
+        addGenreButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String newGenre = genresToAddTextField.getText();
+                if(newGenre.isEmpty()){
+                    messageHandler.emptyToAddError();
+                }else if(genresHandler.findDuplicate(newGenre)) {
+                    messageHandler.duplicateError("Жанр");
+                }else{
+                    genresHandler.addNewGenre(newGenre);
+                    updateGenresList();
+                    genresToAddTextField.setText("");
+                }
+            }
+        });
+
+        deleteGenreButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String selectedGenre =genresList.getSelectedValue();
+                if(selectedGenre==null) {
+                    messageHandler.unselectedError();
+                }else{
+                    if(messageHandler.confirmDeleteGenre()==0){
+                        if(genresHandler.deleteGenre(selectedGenre)==1) {
+                            updateGenresList();
+                        }
+                    }
+                }
             }
         });
     }

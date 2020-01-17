@@ -57,7 +57,7 @@ public class HallsRequestHandler {
         preparedStatement.setString(1, Integer.toString(id));
         preparedStatement.setString(2, title);
         preparedStatement.setString(3, Integer.toString(numOfseats));
-        System.out.println(preparedStatement.toString());
+       // System.out.println(preparedStatement.toString());
         preparedStatement.addBatch();
         preparedStatement.executeBatch();
     }
@@ -120,7 +120,8 @@ public class HallsRequestHandler {
             String deleteConnectionsQuery = "DELETE FROM hall_of_session WHERE hall_id = \"" + id + "\"";
             String deleteHallQuery =
                     "DELETE FROM halls WHERE  hall_id = \"" + id + "\"";
-            return statement.executeUpdate(deleteConnectionsQuery) * statement.executeUpdate(deleteHallQuery);
+            statement.executeUpdate(deleteConnectionsQuery);
+            return statement.executeUpdate(deleteHallQuery);
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
