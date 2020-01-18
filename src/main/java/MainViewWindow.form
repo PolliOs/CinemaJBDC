@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="11" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="2815" height="679"/>
+      <xy x="20" y="20" width="3575" height="921"/>
     </constraints>
     <properties>
       <background color="-14127231"/>
@@ -35,7 +35,7 @@
               <text value="Редагування жанрів"/>
             </properties>
           </component>
-          <grid id="9c117" binding="moviesEditPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="9c117" binding="moviesEditPanel" layout-manager="GridLayoutManager" row-count="9" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -45,12 +45,236 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="6ec73" class="javax.swing.JButton" binding="button1" default-binding="true">
+              <component id="9b3bb" class="javax.swing.JLabel" binding="movieSelectedLabel">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <font size="18"/>
+                  <foreground color="-16777216"/>
+                  <text value="Оберіть фільм"/>
+                  <verticalAlignment value="0"/>
+                </properties>
+              </component>
+              <component id="61d53" class="javax.swing.JComboBox" binding="selectMovieComboBox">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="66315" class="javax.swing.JLabel" binding="movieTitleLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="6" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="18"/>
+                  <foreground color="-16777216"/>
+                  <text value="Назва"/>
+                </properties>
+              </component>
+              <component id="1ae3b" class="javax.swing.JLabel" binding="yearLabel">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="18"/>
+                  <foreground color="-16777216"/>
+                  <text value="Рік випуску"/>
+                </properties>
+              </component>
+              <component id="40aee" class="javax.swing.JTextField" binding="movieTitleTextField">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="5" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="a57a2" class="javax.swing.JTextField" binding="yearTextField">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="f770f" class="javax.swing.JLabel" binding="durationLabel">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="18"/>
+                  <foreground color="-16777216"/>
+                  <text value="Тривалість"/>
+                </properties>
+              </component>
+              <component id="75fed" class="javax.swing.JTextField" binding="durationTextField">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="28355" class="javax.swing.JSeparator">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="7736d" class="javax.swing.JSeparator">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="bcf2a" class="javax.swing.JSeparator">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2c95a" class="javax.swing.JSeparator">
+                <constraints>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <alignmentX value="0.0"/>
+                  <alignmentY value="0.0"/>
+                </properties>
+              </component>
+              <component id="3bcca" class="javax.swing.JSeparator">
+                <constraints>
+                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2dd47" class="javax.swing.JLabel" binding="additionLAbel">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="20"/>
+                  <foreground color="-15921907"/>
+                  <text value="Заповніть поля нижче, для додавання нового фільму"/>
+                </properties>
+              </component>
+              <component id="69204" class="javax.swing.JTextField" binding="textField5" default-binding="true">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="6" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2b212" class="javax.swing.JTextField" binding="textField6" default-binding="true">
+                <constraints>
+                  <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="2" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="4f95b" class="javax.swing.JTextField" binding="textField7" default-binding="true">
+                <constraints>
+                  <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="4427f" class="javax.swing.JButton" binding="addMovieButton">
+                <constraints>
+                  <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-10900576"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Додати"/>
+                </properties>
+              </component>
+              <component id="9fee2" class="javax.swing.JButton" binding="changeMovieButton">
+                <constraints>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="200" height="40"/>
+                    <preferred-size width="200" height="40"/>
+                    <maximum-size width="200" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-10900576"/>
+                  <focusPainted value="true"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <text value="Змінити"/>
+                </properties>
+              </component>
+              <vspacer id="aabdc">
+                <constraints>
+                  <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="7f57b">
+                <constraints>
+                  <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="82910" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="18"/>
+                  <foreground color="-16777216"/>
+                  <text value="Жанри"/>
+                </properties>
+              </component>
+              <scrollpane id="3cbf6">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="c5ce7" class="javax.swing.JList" binding="genresOfMovieList">
+                    <constraints/>
+                    <properties>
+                      <dropMode value="ON"/>
+                      <enabled value="true"/>
+                      <selectionMode value="2"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="df0f0" class="javax.swing.JButton" binding="backToMoviesFromMoviesEdit">
+                <constraints>
+                  <grid row="8" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="40"/>
+                    <maximum-size width="200" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-14673237"/>
+                  <borderPainted value="false"/>
+                  <contentAreaFilled value="true"/>
+                  <font name="Fira Code Medium" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <iconTextGap value="4"/>
+                  <text value="Назад"/>
+                </properties>
+              </component>
+              <component id="e1cba" class="javax.swing.JButton" binding="deleteMovieButton">
+                <constraints>
+                  <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="200" height="40"/>
+                    <preferred-size width="200" height="40"/>
+                    <maximum-size width="200" height="40"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-10090233"/>
+                  <font name="Fira Code Medium" size="18" style="1"/>
+                  <foreground color="-1"/>
+                  <text value="Видалити"/>
                 </properties>
               </component>
             </children>
@@ -120,8 +344,9 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <background color="-10900576"/>
+                  <background color="-14673237"/>
                   <font name="Fira Code Medium" size="20" style="1"/>
+                  <foreground color="-1"/>
                   <text value="Назад"/>
                 </properties>
               </component>
@@ -196,8 +421,9 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-10900576"/>
+              <background color="-14673237"/>
               <font name="Fira Code Medium" size="20" style="1"/>
+              <foreground color="-1"/>
               <text value="Назад"/>
             </properties>
           </component>
@@ -258,8 +484,9 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-10900576"/>
+              <background color="-14673237"/>
               <font name="Fira Code Medium" size="20" style="1"/>
+              <foreground color="-1"/>
               <text value="Назад"/>
             </properties>
           </component>
@@ -326,9 +553,10 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <background color="-10900576"/>
+                  <background color="-14673237"/>
                   <borderPainted value="true"/>
                   <font name="Fira Code Medium" size="20" style="1"/>
+                  <foreground color="-1"/>
                   <text value="Назад"/>
                 </properties>
               </component>
@@ -415,8 +643,9 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <background color="-10900576"/>
+                  <background color="-14673237"/>
                   <font name="Fira Code Medium" size="20" style="1"/>
+                  <foreground color="-1"/>
                   <text value="Назад"/>
                 </properties>
               </component>

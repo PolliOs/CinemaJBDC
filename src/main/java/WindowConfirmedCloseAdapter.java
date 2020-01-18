@@ -6,7 +6,7 @@ public class WindowConfirmedCloseAdapter extends WindowAdapter {
 
     public void windowClosing(WindowEvent e) {
 
-        Object options[] = {"Yes", "No"};
+        Object[] options = {"Yes", "No"};
 
         int close = JOptionPane.showOptionDialog(e.getComponent(),
                 "Do you really want to close this application?\n", "Attention",
