@@ -23,7 +23,7 @@ public class GenresRequestHandler extends Handler {
     }
     public int deleteGenre(String genre) {
         try {
-            int id = getIntValueByTitle(genre, "id");
+            String id = getValueByTitle(genre, "id");
             String deleteConnectionsQuery = "DELETE FROM genres_of_movie WHERE genre_id = \"" + id + "\"";
             String deleteGenreQuery =
                     "DELETE FROM genres WHERE  id = \"" + id + "\"";

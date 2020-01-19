@@ -12,6 +12,19 @@ public class Handler {
         this.statement = statement;
         this.connection = connection;
     }
+    public int checkInt(String value) {
+        try
+        {
+            int number = Integer.parseInt(value);
+            if(Math.abs(number) < 10e5)
+                return Math.abs(number);
+            else return -1;
+        }
+        catch(NumberFormatException er)
+        {
+            return -1;
+        }
+    }
     public boolean findDuplicate(String title) {
         try {
             String hallsTitleQuery = "SELECT * FROM " + panel + " WHERE title = \"" + title + "\"";
@@ -19,6 +32,14 @@ public class Handler {
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean checkNulls(String[] values)
+    {
+        for(String value:values){
+            if(value.isEmpty())
+                return true;
         }
         return false;
     }
@@ -40,8 +61,8 @@ public class Handler {
         }
         return -1;
     }
-    public int getIntValueByTitle(String title, String value) {
-        int ans = -1;
+    public String getValueByTitle(String title, String value) {
+        String ans = "";
         try {
             String sqlSelectQuery =
                     "SELECT " + value + " FROM " + panel + " WHERE  title = \"" + title + "\"";
@@ -49,7 +70,7 @@ public class Handler {
             preparedStatement = connection.prepareStatement(sqlSelectQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                ans = resultSet.getInt(value);
+                ans = resultSet.getString(value);
             }
 
         } catch (SQLException e) {

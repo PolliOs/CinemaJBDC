@@ -159,7 +159,7 @@
                   <text value="Заповніть поля нижче, для додавання нового фільму"/>
                 </properties>
               </component>
-              <component id="69204" class="javax.swing.JTextField" binding="textField5" default-binding="true">
+              <component id="69204" class="javax.swing.JTextField" binding="addNewMovieTitleTextField">
                 <constraints>
                   <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="6" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -167,7 +167,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="2b212" class="javax.swing.JTextField" binding="textField6" default-binding="true">
+              <component id="2b212" class="javax.swing.JTextField" binding="addYearMovieTextField">
                 <constraints>
                   <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="2" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -175,7 +175,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="4f95b" class="javax.swing.JTextField" binding="textField7" default-binding="true">
+              <component id="4f95b" class="javax.swing.JTextField" binding="addDurationTextTittle">
                 <constraints>
                   <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="10" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -619,7 +619,7 @@
                   <text value="Кількість місць"/>
                 </properties>
               </component>
-              <component id="e5d9e" class="javax.swing.JButton" binding="addNewHallButton">
+              <component id="e5d9e" class="javax.swing.JButton" binding="changeHallButton">
                 <constraints>
                   <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <minimum-size width="200" height="40"/>

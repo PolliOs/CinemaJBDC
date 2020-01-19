@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -28,7 +29,7 @@ public class MainViewWindow extends  JFrame {
     private JButton backToHallsButton1;
     private JPanel moviesPanel;
     private JComboBox<String> chooseHallcomboBox;
-    private JButton addNewHallButton;
+    private JButton changeHallButton;
     private JButton backToHallsButton2;
     private JLabel seats1;
     private JLabel title1;
@@ -55,9 +56,9 @@ public class MainViewWindow extends  JFrame {
     private JTextField movieTitleTextField;
     private JTextField yearTextField;
     private JTextField durationTextField;
-    private JTextField textField5;
-    private JTextField textField6;
-    private JTextField textField7;
+    private JTextField addNewMovieTitleTextField;
+    private JTextField addYearMovieTextField;
+    private JTextField addDurationTextTittle;
     private JButton addMovieButton;
     private JLabel movieSelectedLabel;
     private JLabel movieTitleLabel;
@@ -82,39 +83,6 @@ public class MainViewWindow extends  JFrame {
         this.connection = connection;
         initialize();
         buttonsProcessing();
-        //TODO(change this, when the movies selected will be ready)
-        genresOfMovieList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                int minSelectionIndex = genresOfMovieList.getMinSelectionIndex();
-                int maxSelectionIndex = genresOfMovieList.getMaxSelectionIndex();
-
-                // int ind = 0;
-                ArrayList<Integer> newSelectedItems;
-                newSelectedItems = new ArrayList<>();
-                newSelectedItems.add(1);
-                newSelectedItems.add(3);
-                newSelectedItems.add(5);
-                // System.out.println("Converting ArrayList to Array" );
-                for (int i = minSelectionIndex; i <= maxSelectionIndex; i++) {
-                    if (genresOfMovieList.isSelectedIndex(i)) {
-                       // Object elementAt = model.getElementAt(i);
-
-                        if( i == 1){
-                            newSelectedItems.remove(0);
-                        }else{
-                            newSelectedItems.add(i);
-                        }
-                        //System.out.print(elementAt);
-                        // select[ind++] = i;
-                    }
-                }
-                // Integer[] selected = newSelectedItems.toArray(new Integer[newSelectedItems.size()]);
-                select = newSelectedItems.stream().mapToInt(i -> i).toArray();
-                genresOfMovieList.setSelectedIndices(select);
-            }
-        });
     }
 
     private void initialize(){
@@ -132,7 +100,7 @@ public class MainViewWindow extends  JFrame {
         changePanels();
         addPanelsToTheFrame();
         updateGenresList();
-        updateGenresOfMovieList();
+        setGenresOfMovieList();
     }
 
 
@@ -145,7 +113,7 @@ public class MainViewWindow extends  JFrame {
             model.add(i, genres[i]);
         }
     }
-    private void updateGenresOfMovieList() {
+    private void setGenresOfMovieList() {
         DefaultListModel<String> model = new DefaultListModel<>();
         genresOfMovieList.setCellRenderer(new CheckboxListCellRenderer());
         ArrayList<String> genresArrayList = genresHandler.getListOfTitles();
@@ -156,13 +124,10 @@ public class MainViewWindow extends  JFrame {
         genresOfMovieList.setModel(model);
         genresOfMovieList.setSelectionMode(
                 ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        select = new int[]{1,2,3};
-      //  genresOfMovieList.addListSelectionListener(new SharedListSelectionHandler());
+    }
+    private void updateSelectedGenresOfMovieList() {
+        select = moviesHandler.genresOfCurrentMovie.stream().mapToInt(i -> i).toArray();
         genresOfMovieList.setSelectedIndices(select);
-
-       // ListSelectionDocument listSelectionDocument = new ListSelectionDocument();
-      //  genresOfMovieList.addListSelectionListener(listSelectionDocument);
-
     }
 
     private void buttonsProcessing() {
@@ -172,12 +137,14 @@ public class MainViewWindow extends  JFrame {
                 super.mouseClicked(e);
                 String seats = seatsTextFieldInAddMode.getText();
                 String title = titleTextFieldInAddMode.getText();
-                int numOfSeats = HallsRequestHandler.checkInt(seats);
+                int numOfSeats = hallsHandler.checkInt(seats);
                 seatsTextFieldInAddMode.setText(Integer.toString(numOfSeats));
-                if (!HallsRequestHandler.checkNulls(seats,title)) {
+                if (hallsHandler.checkNulls(new String[]{seats, title})) {
                     messageHandler.nullValuesError();
+                    seatsTextFieldInAddMode.setText("");
                 } else if (numOfSeats == -1) {
                     messageHandler.invalidIntValue("Кількість місць");
+                    seatsTextFieldInAddMode.setText("");
                 } else if (hallsHandler.findDuplicate(title)){
                     messageHandler.duplicateError("Зала");
                 } else{
@@ -197,17 +164,21 @@ public class MainViewWindow extends  JFrame {
             updateTitleAndSeatsFields(selectedHallTitle);
         });
         selectMovieComboBox.addActionListener(event -> {
-            String selectedHallTitle = (String) selectMovieComboBox.getSelectedItem();
-            updateYearAndDurationFields(selectedHallTitle);
+            String selectedMovieTitle = (String) selectMovieComboBox.getSelectedItem();
+            updateYearAndDurationFields(selectedMovieTitle);
+            moviesHandler.setGenresOfMovie(selectedMovieTitle);
+            updateSelectedGenresOfMovieList();
         });
-        addNewHallButton.addMouseListener(new MouseAdapter() {
+        changeHallButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 String prevHall = (String) chooseHallcomboBox.getSelectedItem();
                 String newTitle = titleTextFieldInEditMode.getText();
                 String newNumOfSeats = seatsTextFieldInEditMode.getText();
-                if(!hallsHandler.findDuplicate(newTitle) || newTitle.equals(prevHall)){
+                if(hallsHandler.checkNulls(new String[]{newTitle, newNumOfSeats})){
+                    messageHandler.emptyToAddError();
+                }else if(!hallsHandler.findDuplicate(newTitle) || newTitle.equals(prevHall)){
                     hallsHandler.updateHall(prevHall, newTitle, newNumOfSeats);
                     updateSelectedHallComboBox();
                 }else{
@@ -221,7 +192,7 @@ public class MainViewWindow extends  JFrame {
                 super.mouseClicked(e);
                 String title = titleTextFieldInEditMode.getText();
                 if(messageHandler.confirmDeleteHall() == 0) {
-                    if (hallsHandler.deleteHall(hallsHandler.getIntValueByTitle(title, "id")) == 1) {
+                    if (hallsHandler.deleteHall(hallsHandler.getValueByTitle(title, "id")) == 1) {
                         updateSelectedHallComboBox();
                     }
                 }
@@ -261,11 +232,91 @@ public class MainViewWindow extends  JFrame {
                 }
             }
         });
+
+        genresOfMovieList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int minSelectionIndex = genresOfMovieList.getMinSelectionIndex();
+                int maxSelectionIndex = genresOfMovieList.getMaxSelectionIndex();
+                for (int i = minSelectionIndex; i <= maxSelectionIndex; i++) {
+                    if (genresOfMovieList.isSelectedIndex(i)) {
+                        if(moviesHandler.currentSelectedGenresForMovie.contains(i)){
+                            moviesHandler.currentSelectedGenresForMovie.remove(i);
+                        }else{
+                            moviesHandler.currentSelectedGenresForMovie.add(i);
+                        }
+                    }
+                }
+                select = moviesHandler.currentSelectedGenresForMovie.stream().mapToInt(i -> i).toArray();
+                genresOfMovieList.setSelectedIndices(select);
+            }
+        });
+
+        changeMovieButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String currMovieTitle = (String) selectMovieComboBox.getSelectedItem();
+                String newTitle = movieTitleTextField.getText();
+                String year = yearTextField.getText();
+                String duration = durationTextField.getText();
+                if(moviesHandler.findChanges(currMovieTitle, newTitle,year, duration )){
+                    if(messageHandler.confirmChanges()==0){
+                        if(moviesHandler.checkNulls(new String[]{newTitle, year, duration})){
+                            messageHandler.emptyToAddError();
+                        }
+                        else {
+                            moviesHandler.changeMovie(currMovieTitle, newTitle, year, duration);
+                            updateMoviesTitleComboBox();
+                            updateSelectedGenresOfMovieList();
+                        }
+                    }
+                }
+            }
+        });
+
+        addMovieButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                String newTitle = addNewMovieTitleTextField.getText();
+                String year = addYearMovieTextField.getText();
+                String duration = addDurationTextTittle.getText();
+
+                if (moviesHandler.checkNulls(new String[]{newTitle, year, duration})) {
+                    messageHandler.nullValuesError();
+                } else {
+                    if(moviesHandler.findDuplicate(newTitle)) {
+                        messageHandler.duplicateError("Назва");
+                    }else{
+                        tryToChangeAddMovieFields(year, duration, newTitle);
+                    }
+                }
+            }
+
+            private void tryToChangeAddMovieFields(String year, String duration, String newTitle) {
+                int yearInt = moviesHandler.checkInt(year);
+                if(yearInt < 1900 || yearInt > 2020){
+                    messageHandler.invalidIntValue("Рік");
+                    return;
+                }
+                int durationInt = moviesHandler.checkInt(duration);
+                addDurationTextTittle.setText(String.valueOf(durationInt));
+                if(durationInt < 0 || durationInt > 1000){
+                    messageHandler.invalidIntValue("Тривалість");
+                    return;
+                }
+                moviesHandler.addNewMovie(newTitle, year,duration);
+                updateSelectedGenresOfMovieList();
+                updateMoviesTitleComboBox();
+                addNewMovieTitleTextField.setText("");
+                addYearMovieTextField.setText("");
+                addDurationTextTittle.setText("");
+            }
+        });
+
     }
-
-
-
-
     private void changePanels() {
         hallsButton.addActionListener(e -> changeActivePanel(hallsPanel, mainPanel));
         moviesButton.addActionListener(e -> changeActivePanel(moviesPanel, mainPanel));
@@ -311,10 +362,10 @@ public class MainViewWindow extends  JFrame {
     }
 
     private void updateYearAndDurationFields(String movie) {
-        int year = moviesHandler.getIntValueByTitle(movie, "year");
-        int duration = moviesHandler.getIntValueByTitle(movie, "duration");
-        yearTextField.setText(String.valueOf(year));
-        durationTextField.setText(String.valueOf(duration));
+        String year = moviesHandler.getValueByTitle(movie, "year");
+        String duration = moviesHandler.getValueByTitle(movie, "duration");
+        yearTextField.setText(year);
+        durationTextField.setText(duration);
         movieTitleTextField.setText(movie);
     }
 
@@ -323,16 +374,15 @@ public class MainViewWindow extends  JFrame {
         previousPanel.setVisible(false);
     }
     private void updateTitleAndSeatsFields(String title) {
-        int numOfSeats = hallsHandler.getIntValueByTitle(title, "seats");
+        String numOfSeats = hallsHandler.getValueByTitle(title, "seats");
         titleTextFieldInEditMode.setText(title);
-        seatsTextFieldInEditMode.setText(Integer.toString(numOfSeats));
+        seatsTextFieldInEditMode.setText(numOfSeats);
     }
     private void addPanelsToTheFrame() {
         frame.getContentPane().add(mainPanel, "name_1");
         frame.getContentPane().add(hallsPanel, "name_2");
         frame.getContentPane().add(moviesPanel, "name_3");
         frame.getContentPane().add(sessionsPanel, "name_4");
-        addHallPanel.setBackground(new Color(40,111,129));
         frame.getContentPane().add(addHallPanel, "name_5");
         frame.getContentPane().add(editHallsPanel, "name_6");
         frame.getContentPane().add(moviesEditPanel, "name_7");

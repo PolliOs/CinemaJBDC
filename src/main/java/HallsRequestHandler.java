@@ -9,23 +9,7 @@ public class HallsRequestHandler extends Handler {
     public HallsRequestHandler(Statement statement, Connection connection){
         super("halls", statement,connection);
     }
-    static boolean checkNulls(String seats, String title){
-        return(!(seats.isEmpty() || title.isEmpty()));
-    }
 
-    public static int checkInt(String value) {
-        try
-        {
-            int number = Integer.parseInt(value);
-            if(Math.abs(number) < 10e5)
-                 return Math.abs(number);
-            else return -1;
-        }
-        catch(NumberFormatException er)
-        {
-            return -1;
-        }
-    }
     public void addNewHall(int numOfseats, String title) throws SQLException {
         PreparedStatement preparedStatement =
                 connection.prepareStatement(INSERT_QUERY);
@@ -36,7 +20,7 @@ public class HallsRequestHandler extends Handler {
         preparedStatement.addBatch();
         preparedStatement.executeBatch();
     }
-    public int deleteHall(int id) {
+    public int deleteHall(String id) {
         try {
             String deleteConnectionsQuery = "DELETE FROM hall_of_session WHERE hall_id = \"" + id + "\"";
             String deleteHallQuery =
@@ -51,10 +35,10 @@ public class HallsRequestHandler extends Handler {
     }
     public void updateHall(String prevHall, String newTitle, String newNumOfSeats) {
         try {
-            int id = getIntValueByTitle(prevHall, "id");
+            String id = getValueByTitle(prevHall, "id");
             String updateHallQuery =
                     "UPDATE halls SET `title`=\"" + newTitle + "\", `seats`= \"" + newNumOfSeats + "\" WHERE `id`=\"" + id + "\"";
-            System.out.println(statement.executeUpdate(updateHallQuery));
+            statement.executeUpdate(updateHallQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -7,7 +7,7 @@ public class MessageHandler {
     }
 
     public void invalidIntValue(String value) {
-        JOptionPane.showMessageDialog(null, "Поле '" + value + "\" має бути цілим додатнім числом, меншим за 10^5." , "InfoBox: " + "Failure", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Поле '" + value + "\" має бути цілим додатнім числом, який відповідає життєвим величинам :)" , "InfoBox: " + "Failure", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void duplicateError(String value) {
@@ -29,4 +29,8 @@ public class MessageHandler {
         return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей жанр? ");
     }
 
+    public int confirmChanges() {
+        return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете зберегти ці зміни? ");
+
+    }
 }
