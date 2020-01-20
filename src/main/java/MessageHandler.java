@@ -25,8 +25,8 @@ public class MessageHandler {
     public void emptyToAddError() {
         JOptionPane.showMessageDialog(null,  "Значення не має бути порожнім рядком" , "InfoBox: " + "Empty value error", JOptionPane.INFORMATION_MESSAGE);
     }
-    public int confirmDeleteGenre() {
-        return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей жанр? ");
+    public int confirmDeleteValue(String value) {
+        return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей " + value + " ? ");
     }
 
     public int confirmChanges() {
