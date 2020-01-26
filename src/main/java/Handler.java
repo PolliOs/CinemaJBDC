@@ -80,12 +80,12 @@ public class Handler {
         return ans;
     }
 
-    public ArrayList<String> getListOfTitles() {
+    public ArrayList<String> getListOf(String value) {
         ArrayList<String> list = new ArrayList<>();
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT title FROM " + panel);
+            ResultSet resultSet = statement.executeQuery("SELECT " + value + " FROM " + panel);
             while(resultSet.next()){
-                list.add(resultSet.getString("title"));
+                list.add(resultSet.getString(value));
             }
         } catch (SQLException e) {
             e.printStackTrace();

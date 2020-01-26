@@ -16,7 +16,7 @@ public class MainViewWindow extends  JFrame {
     private JButton moviesButton;
     private JButton sessionsButton;
     private JPanel sessionsPanel;
-    private JButton backToMainButton1;
+    private JButton backToMainButtonFromHallsButton;
     private JButton changeCurrentHallButton;
     private JButton addHallButton;
     private JPanel addHallPanel;
@@ -40,11 +40,11 @@ public class MainViewWindow extends  JFrame {
     private JPanel moviesEditPanel;
     private JButton moviesEditButton;
     private JPanel genresEditPanel;
-    private JButton backToMainFromMovies;
+    private JButton backToMainFromMoviesButton;
     private JList<String> genresList;
     private JTextField genresToAddTextField;
     private JButton addGenreButton;
-    private JButton backToMoviesFromGenresEdit;
+    private JButton backToMoviesFromGenresEditButton;
     private JLabel addNewGenreLabel;
     private JLabel existedGenres;
     private JButton deleteGenreButton;
@@ -63,8 +63,12 @@ public class MainViewWindow extends  JFrame {
     private JLabel yearLabel;
     private JLabel durationLabel;
     private JLabel additionLAbel;
-    private JButton backToMoviesFromMoviesEdit;
+    private JButton backToMoviesFromMoviesEditButton;
     private JButton deleteMovieButton;
+    private JTable sessionsTable;
+    private JButton saveChangesInTableButton;
+    private JButton backToMainFromSessionsButton;
+    private JButton addRowButton;
     private HallsRequestHandler hallsHandler;
     private  MessageHandler messageHandler;
     private  Statement statement;
@@ -72,7 +76,7 @@ public class MainViewWindow extends  JFrame {
     private GenresRequestHandler genresHandler;
     private MoviesRequestHandler moviesHandler;
     private  int[] select;
-   // private int ind = 0;
+    private TableCreationHandler tableCreationHandler;
 
 
 
@@ -88,6 +92,7 @@ public class MainViewWindow extends  JFrame {
         genresHandler = new GenresRequestHandler(statement, connection);
         messageHandler = new MessageHandler();
         moviesHandler = new MoviesRequestHandler(statement,connection);
+        tableCreationHandler = new TableCreationHandler(connection);
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new CardLayout(0,0));
@@ -99,13 +104,37 @@ public class MainViewWindow extends  JFrame {
         addPanelsToTheFrame();
         updateGenresList();
         setGenresOfMovieList();
+        sessionsTable.setModel(tableCreationHandler.table);
+       // sessionsTable.setBackground(new Color(250,250,60));
+
+        //Set up column sizes.
+        tableCreationHandler.initColumnSizes(sessionsTable);
+
+
+        //Fiddle with the Sport column's cell editors/renderers.
+        tableCreationHandler.setUpMovieColumn(sessionsTable.getColumnModel().getColumn(2), moviesHandler.getListOf("title"));
+        //Fiddle with the Movies column's cell editors/renderers.
+        tableCreationHandler.setUpHallsColumn(sessionsTable.getColumnModel().getColumn(3), hallsHandler.getListOf("title"));
+        //Fiddle with the Days column's cell editors/renderers.
+        tableCreationHandler.setUpDaysColumn(sessionsTable.getColumnModel().getColumn(0));
+        sessionsTable.setPreferredScrollableViewportSize(new Dimension(500, 60));
+        sessionsTable.setFillsViewportHeight(true);
+        //  frame.addWindowListener(new WindowConfirmedCloseAdapter());
+        //  add(sessionsTable);
+        mainPanel.setOpaque(true); //content panes must be opaqu
+        sessionsTable.setVisible(true);
+
+
+
+
+
     }
 
 
     private void updateGenresList() {
         DefaultListModel<String> model = new DefaultListModel<>();
         genresList.setModel(model);
-        ArrayList<String> genresArrayList = genresHandler.getListOfTitles();
+        ArrayList<String> genresArrayList = genresHandler.getListOf("title");
         String[] genres = genresArrayList.toArray(new String[0]);
         for (int i = 0; i < genres.length; i++) {
             model.add(i, genres[i]);
@@ -114,7 +143,7 @@ public class MainViewWindow extends  JFrame {
     private void setGenresOfMovieList() {
         DefaultListModel<String> model = new DefaultListModel<>();
         genresOfMovieList.setCellRenderer(new CheckboxListCellRenderer());
-        ArrayList<String> genresArrayList = genresHandler.getListOfTitles();
+        ArrayList<String> genresArrayList = genresHandler.getListOf("title");
         String[] genres = genresArrayList.toArray(new String[0]);
         for (int i = 0; i < genres.length; i++) {
             model.add(i, genres[i]);
@@ -330,11 +359,11 @@ public class MainViewWindow extends  JFrame {
 
             }
         });
-
     }
 
+
     private void updateSelectedGenresOfMovieId() {
-        String[] genres = genresHandler.getListOfTitles().toArray(new String[0]);
+        String[] genres = genresHandler.getListOf("title").toArray(new String[0]);
         Integer[] genresId = new Integer[genres.length];
         for(int i = 0; i < genres.length; i++){
             genresId[i] = Integer.valueOf(genresHandler.getValueByTitle(genres[i], "id"));
@@ -343,11 +372,7 @@ public class MainViewWindow extends  JFrame {
     }
 
     private void changePanels() {
-        hallsButton.addActionListener(e -> changeActivePanel(hallsPanel, mainPanel));
-        moviesButton.addActionListener(e -> changeActivePanel(moviesPanel, mainPanel));
-        sessionsButton.addActionListener(e -> changeActivePanel(sessionsPanel, mainPanel));
-        backToMainButton1.addActionListener(e -> changeActivePanel(mainPanel, hallsPanel));
-        backToHallsButton1.addActionListener(e -> changeActivePanel(hallsPanel, addHallPanel));
+        PanelsProcessing(hallsButton, hallsPanel, mainPanel, moviesButton, moviesPanel, sessionsButton, sessionsPanel, mainPanel, backToMainButtonFromHallsButton, backToHallsButton1, hallsPanel, addHallPanel);
         backToHallsButton2.addActionListener(e -> changeActivePanel(hallsPanel, editHallsPanel));
         addHallButton.addActionListener(e -> changeActivePanel(addHallPanel, hallsPanel));
         changeCurrentHallButton.addActionListener(e -> {
@@ -362,14 +387,20 @@ public class MainViewWindow extends  JFrame {
             updateMoviesTitleComboBox();
             updateSelectedGenresOfMovieList();
         });
-        genresEditButton.addActionListener(e -> changeActivePanel(genresEditPanel, moviesPanel));
-        backToMainFromMovies.addActionListener(e -> changeActivePanel(mainPanel, moviesPanel));
-        backToMoviesFromGenresEdit.addActionListener(e -> changeActivePanel(moviesPanel, genresEditPanel));
-        backToMoviesFromMoviesEdit.addActionListener(e -> changeActivePanel(moviesPanel, moviesEditPanel));
+        PanelsProcessing(genresEditButton, genresEditPanel, moviesPanel, backToMainFromMoviesButton, mainPanel, backToMainFromSessionsButton, mainPanel, sessionsPanel, backToMoviesFromGenresEditButton, backToMoviesFromMoviesEditButton, moviesPanel, moviesEditPanel);
     }
+
+    private void PanelsProcessing(JButton hallsButton, JPanel hallsPanel, JPanel mainPanel, JButton moviesButton, JPanel moviesPanel, JButton sessionsButton, JPanel sessionsPanel, JPanel mainPanel2, JButton backToMainButtonFromHallsButton, JButton backToHallsButton1, JPanel hallsPanel2, JPanel addHallPanel) {
+        hallsButton.addActionListener(e -> changeActivePanel(hallsPanel, mainPanel));
+        moviesButton.addActionListener(e -> changeActivePanel(moviesPanel, mainPanel));
+        sessionsButton.addActionListener(e -> changeActivePanel(sessionsPanel, mainPanel2));
+        backToMainButtonFromHallsButton.addActionListener(e -> changeActivePanel(mainPanel, hallsPanel));
+        backToHallsButton1.addActionListener(e -> changeActivePanel(hallsPanel2, addHallPanel));
+    }
+
     private void updateSelectedHallComboBox() {
         ArrayList<String> halls =
-                hallsHandler.getListOfTitles();
+                hallsHandler.getListOf("title");
         chooseHallcomboBox.removeAllItems();
         for(String hallTitle: halls){
             chooseHallcomboBox.addItem(hallTitle);
@@ -379,7 +410,7 @@ public class MainViewWindow extends  JFrame {
     }
     private void updateMoviesTitleComboBox() {
         ArrayList<String> movies =
-                moviesHandler.getListOfTitles();
+                moviesHandler.getListOf("title");
         selectMovieComboBox.removeAllItems();
         for(String movieTitle: movies){
             selectMovieComboBox.addItem(movieTitle);

@@ -15,9 +15,9 @@ public class WindowConfirmedCloseAdapter extends WindowAdapter {
                 null,
                 options,
                 null);
-
+        //TODO uncomment
         if(close == JOptionPane.YES_OPTION) {
-              /* if (statement != null) {
+             /*  if (statement != null) {
                 statement.close();
             }
             if (connection != null) {
