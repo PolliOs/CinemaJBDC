@@ -79,6 +79,24 @@ public class Handler {
         }
         return ans;
     }
+    public String getValueByTitle(String title, String value, String panel) {
+        String ans = "";
+        try {
+            String sqlSelectQuery =
+                    "SELECT " + value + " FROM " + panel + " WHERE  title = \"" + title + "\"";
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(sqlSelectQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                ans = resultSet.getString(value);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return ans;
+    }
 
     public ArrayList<String> getListOf(String value) {
         ArrayList<String> list = new ArrayList<>();

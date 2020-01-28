@@ -4,34 +4,35 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.sql.*;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import static java.lang.Boolean.FALSE;
 
 public class TableCreationHandler {
     public  SessionsTableModel table;
-    private static int numOfColumns = 6;
+    private static int numOfColumns = 7;
     private Connection connection;
+    ArrayList<Object[]> dataArrayList = new ArrayList<>();
 
     TableCreationHandler(Connection connection){
         this.connection = connection;
         table = new SessionsTableModel();
+        initializeTable();
+    }
+
+    public void initializeTable() {
         table.setData(getData());
     }
+
     private Object[][] getData() {
-        ArrayList<Object[]> dataArrayList = new ArrayList<>();
         try {
             String sqlSelectQuery =
-                    "SELECT * FROM session";
+                    "SELECT * FROM sessions";
             String sqlGetMovieTitleQuery = "SELECT title FROM movies WHERE id = (?)";
             String sqlGetHallTitleQuery = "SELECT title FROM halls WHERE id = (?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectQuery);
             PreparedStatement prepStatForMovieQuery = connection.prepareStatement(sqlGetMovieTitleQuery);
             PreparedStatement prepStatForHallQuery = connection.prepareStatement(sqlGetHallTitleQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
-            dataArrayList = getDataArrayList(resultSet, prepStatForHallQuery, prepStatForMovieQuery);
+            getDataArrayList(resultSet, prepStatForHallQuery, prepStatForMovieQuery);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,14 +45,16 @@ public class TableCreationHandler {
         return data;
     }
 
-    private ArrayList<Object[]> getDataArrayList(ResultSet resultSet, PreparedStatement prepStatForHallQuery, PreparedStatement prepStatForMovieQuery) throws SQLException {
-        ArrayList<Object[]> dataArrayList = new ArrayList<>();
+    private void getDataArrayList(ResultSet resultSet, PreparedStatement prepStatForHallQuery, PreparedStatement prepStatForMovieQuery) throws SQLException {
+        dataArrayList.clear();
         String time;
         String day;
         String price;
         String movie = "";
         String hall = "";
+        String id;
         while (resultSet.next()) {
+            id = resultSet.getString("id");
             time = resultSet.getString("time");
             day = resultSet.getString("day");
             price = resultSet.getString("price");
@@ -65,21 +68,9 @@ public class TableCreationHandler {
             while (resultSet1.next()) {
                 hall = resultSet1.getString("title");
             }
-            dataArrayList.add(new Object[]{day, time, movie, hall, price, Boolean.FALSE});
+            dataArrayList.add(new Object[]{id, day, time, movie, hall, price, Boolean.FALSE});
         }
-        return  dataArrayList;
     }
-
-    /*{"Monday", LocalTime.parse("12:22",
-            DateTimeFormatter.ISO_TIME).toString(),
-            "Дулітл", "purpl20e", "50", FALSE},
-    {"Monday", LocalTime.parse("22:10",
-            DateTimeFormatter.ISO_TIME).toString(),
-            "Дулітл", "pink", "50", FALSE},
-    {"Wednesday", LocalTime.parse("13:20",
-            DateTimeFormatter.ISO_TIME).toString(),
-            "Дулітл", "purple", "50", FALSE}
-};*/
     public void initColumnSizes(JTable table) {
         SessionsTableModel model = (SessionsTableModel) table.getModel();
         TableColumn column;
@@ -102,14 +93,6 @@ public class TableCreationHandler {
                             table, longValues[i],
                             false, false, 0, i);
             cellWidth = comp.getPreferredSize().width;
-
-            /*if (DEBUG) {
-                System.out.println("Initializing width of column "
-                        + i + ". "
-                        + "headerWidth = " + headerWidth
-                        + "; cellWidth = " + cellWidth);
-            }*/
-
             column.setPreferredWidth(Math.max(headerWidth, cellWidth));
         }
     }
@@ -121,7 +104,6 @@ public class TableCreationHandler {
         }
         movieColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-        //Set up tool tips for the sport cells.
         DefaultTableCellRenderer renderer =
                 new DefaultTableCellRenderer();
         renderer.setToolTipText("Click for combo box");
@@ -129,7 +111,6 @@ public class TableCreationHandler {
     }
 
     public void setUpDaysColumn(TableColumn daysColumn) {
-        //Set up the editor for the sport cells.
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem("Понеділок");
         comboBox.addItem("Вівторок");
@@ -140,7 +121,6 @@ public class TableCreationHandler {
         comboBox.addItem("Неділя");
         daysColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-        //Set up tool tips for the sport cells.
         DefaultTableCellRenderer renderer =
                 new DefaultTableCellRenderer();
         renderer.setToolTipText("Click for combo box");
@@ -148,18 +128,24 @@ public class TableCreationHandler {
     }
 
     void setUpHallsColumn(TableColumn hallsColumn, ArrayList<String> halls) {
-        //Set up the editor for the sport cells.
         JComboBox<String> comboBox = new JComboBox<>();
         for(String hall:halls) {
             comboBox.addItem(hall);
         }
         hallsColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-        //Set up tool tips for the sport cells.
         DefaultTableCellRenderer renderer =
                 new DefaultTableCellRenderer();
         renderer.setToolTipText("Click for combo box");
         hallsColumn.setCellRenderer(renderer);
     }
+
+    public void insertRow(){
+        Object[][] newData = new Object[dataArrayList.size()+1][numOfColumns];
+        dataArrayList.add(new Object[]{"", "", SessionsTableModel.defaultTime, "", "", SessionsTableModel.defaultPrice, Boolean.FALSE});
+        for (int i = 0; i < dataArrayList.size(); i++) {
+            newData[i] = dataArrayList.get(i);
+        }
+        table.setData(newData);
+    }
 }
-//TODO remove all debug here

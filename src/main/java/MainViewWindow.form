@@ -774,7 +774,7 @@
                 <constraints/>
                 <properties>
                   <autoResizeMode value="2"/>
-                  <background color="-14127231"/>
+                  <background color="-13793625"/>
                   <enabled value="true"/>
                   <font size="16" style="1"/>
                   <maximumSize width="400" height="40"/>
@@ -782,6 +782,7 @@
                   <preferredScrollableViewportSize width="500" height="20"/>
                   <preferredSize width="50" height="40"/>
                   <rowHeight value="25"/>
+                  <visible value="true"/>
                 </properties>
               </component>
             </children>

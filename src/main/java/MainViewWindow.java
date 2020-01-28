@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class MainViewWindow extends  JFrame {
     JFrame frame;
     private  JPanel adminPanel;
@@ -77,6 +78,7 @@ public class MainViewWindow extends  JFrame {
     private MoviesRequestHandler moviesHandler;
     private  int[] select;
     private TableCreationHandler tableCreationHandler;
+    private SessionsRequestHandler sessionsHandler;
 
 
 
@@ -104,30 +106,18 @@ public class MainViewWindow extends  JFrame {
         addPanelsToTheFrame();
         updateGenresList();
         setGenresOfMovieList();
+        setTableModel();
+    }
+
+    private void setTableModel() {
         sessionsTable.setModel(tableCreationHandler.table);
-       // sessionsTable.setBackground(new Color(250,250,60));
-
-        //Set up column sizes.
         tableCreationHandler.initColumnSizes(sessionsTable);
-
-
-        //Fiddle with the Sport column's cell editors/renderers.
-        tableCreationHandler.setUpMovieColumn(sessionsTable.getColumnModel().getColumn(2), moviesHandler.getListOf("title"));
-        //Fiddle with the Movies column's cell editors/renderers.
-        tableCreationHandler.setUpHallsColumn(sessionsTable.getColumnModel().getColumn(3), hallsHandler.getListOf("title"));
-        //Fiddle with the Days column's cell editors/renderers.
-        tableCreationHandler.setUpDaysColumn(sessionsTable.getColumnModel().getColumn(0));
-        sessionsTable.setPreferredScrollableViewportSize(new Dimension(500, 60));
+        updateSessionTableView();
         sessionsTable.setFillsViewportHeight(true);
-        //  frame.addWindowListener(new WindowConfirmedCloseAdapter());
-        //  add(sessionsTable);
-        mainPanel.setOpaque(true); //content panes must be opaqu
+        mainPanel.setOpaque(true);
         sessionsTable.setVisible(true);
-
-
-
-
-
+        sessionsHandler = new SessionsRequestHandler(statement,connection,sessionsTable);
+        sessionsTable.setBorder(BorderFactory.createEmptyBorder());
     }
 
 
@@ -359,6 +349,24 @@ public class MainViewWindow extends  JFrame {
 
             }
         });
+        addRowButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                tableCreationHandler.insertRow();
+                updateSessionTableView();
+            }
+        });
+        saveChangesInTableButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                sessionsHandler.deleteRows(sessionsTable);
+                sessionsHandler.applyChanges(sessionsTable,tableCreationHandler.table.changedRows);
+                tableCreationHandler.initializeTable();
+                updateSessionTableView();
+            }
+        });
     }
 
 
@@ -388,6 +396,11 @@ public class MainViewWindow extends  JFrame {
             updateSelectedGenresOfMovieList();
         });
         PanelsProcessing(genresEditButton, genresEditPanel, moviesPanel, backToMainFromMoviesButton, mainPanel, backToMainFromSessionsButton, mainPanel, sessionsPanel, backToMoviesFromGenresEditButton, backToMoviesFromMoviesEditButton, moviesPanel, moviesEditPanel);
+    }
+    private void updateSessionTableView(){
+        tableCreationHandler.setUpMovieColumn(sessionsTable.getColumnModel().getColumn(sessionsTable.getColumn("Фільм").getModelIndex()), moviesHandler.getListOf("title"));
+        tableCreationHandler.setUpHallsColumn(sessionsTable.getColumnModel().getColumn(sessionsTable.getColumn("Зал").getModelIndex()), hallsHandler.getListOf("title"));
+        tableCreationHandler.setUpDaysColumn(sessionsTable.getColumnModel().getColumn(sessionsTable.getColumn("День").getModelIndex()));
     }
 
     private void PanelsProcessing(JButton hallsButton, JPanel hallsPanel, JPanel mainPanel, JButton moviesButton, JPanel moviesPanel, JButton sessionsButton, JPanel sessionsPanel, JPanel mainPanel2, JButton backToMainButtonFromHallsButton, JButton backToHallsButton1, JPanel hallsPanel2, JPanel addHallPanel) {

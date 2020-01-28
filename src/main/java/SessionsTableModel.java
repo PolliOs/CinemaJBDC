@@ -1,11 +1,13 @@
 import javax.swing.table.AbstractTableModel;
-import java.sql.Date;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 class SessionsTableModel extends AbstractTableModel {
-    boolean DEBUG = false;
-    private String[] columnNames = {"День",
+    public static String defaultTime = "10:00";
+    public static String defaultPrice = "50";
+    public Set<Integer> changedRows = new HashSet<>();
+    private String[] columnNames = {"ID",
+            "День",
             "Час",
             "Фільм",
             "Зал",
@@ -15,11 +17,11 @@ class SessionsTableModel extends AbstractTableModel {
     private Object[][] data;
     public  void setData(Object[][] data){
         this.data = data;
+        fireTableStructureChanged();
     }
 
-
-    public final Object[] longValues = {new Date(2020,1,1),  LocalTime.now(),
-            "None of the above", "None of the above", "50", Boolean.TRUE};
+    public final Object[] longValues = {"", "",  defaultTime,
+            "", "", defaultPrice, Boolean.FALSE};
 
     public int getColumnCount() {
         return columnNames.length;
@@ -47,48 +49,14 @@ class SessionsTableModel extends AbstractTableModel {
         return getValueAt(0, c).getClass();
     }
 
-    /*
-     * Don't need to implement this method unless your table's
-     * editable.
-     */
     public boolean isCellEditable(int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-        return true;
+        return col != 0;
     }
 
-    /*
-     * Don't need to implement this method unless your table's
-     * data can change.
-     */
     public void setValueAt(Object value, int row, int col) {
-        if (DEBUG) {
-            System.out.println("Setting value at " + row + "," + col
-                    + " to " + value
-                    + " (an instance of "
-                    + value.getClass() + ")");
-        }
-
         data[row][col] = value;
         fireTableCellUpdated(row, col);
-
-        if (DEBUG) {
-            System.out.println("New value of data:");
-            printDebugData();
-        }
+        changedRows.add(row);
     }
 
-    private void printDebugData() {
-        int numRows = getRowCount();
-        int numCols = getColumnCount();
-
-        for (int i=0; i < numRows; i++) {
-            System.out.print("    row " + i + ":");
-            for (int j=0; j < numCols; j++) {
-                System.out.print("  " + data[i][j]);
-            }
-            System.out.println();
-        }
-        System.out.println("--------------------------");
-    }
 }
