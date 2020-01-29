@@ -17,6 +17,9 @@ public class MessageHandler {
     public int confirmDeleteHall() {
         return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей зал? Усі сеанси, які проводяться у цій залі також втратяться");
     }
+    public int confirmDeleteMovie() {
+        return JOptionPane.showConfirmDialog(null, "Ви впевнені що хочете видалити цей фільм? Усі сеанси, які транслюють даний фільм також втратяться");
+    }
 
     public void unselectedError() {
         JOptionPane.showMessageDialog(null,  "Ви не обрали значення для видалення" , "InfoBox: " + "Unselected error", JOptionPane.INFORMATION_MESSAGE);

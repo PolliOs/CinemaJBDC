@@ -117,9 +117,11 @@ public class MoviesRequestHandler extends Handler {
         try {
             String id = getValueByTitle(movie, "id");
             String deleteConnectionsQuery = "DELETE FROM genres_of_movie WHERE movie_id = \"" + id + "\"";
+            String deleteSessionsQuery = "DELETE FROM sessions WHERE movie_id = \"" + id + "\"";
             String deleteMovieQuery =
                     "DELETE FROM movies WHERE  id = \"" + id + "\"";
             statement.executeUpdate(deleteConnectionsQuery);
+            statement.executeUpdate(deleteSessionsQuery);
             statement.executeUpdate(deleteMovieQuery);
         } catch (SQLException e) {
             e.printStackTrace();

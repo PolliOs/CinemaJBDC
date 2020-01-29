@@ -1,7 +1,10 @@
+import javafx.util.Pair;
+
 import javax.swing.*;
 import java.sql.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,12 +49,12 @@ public class SessionsRequestHandler extends Handler {
     }
 
     public void applyChanges(JTable sessionsTable, Set<Integer> changedRows) {
-        Set<String> used = new HashSet<>();
+        HashMap<String, HashSet<Pair<Integer,Integer>>>used = new HashMap<>();
         updateExistedSessions(sessionsTable, changedRows, used);
         addNewSessions(sessionsTable,used);
     }
 
-    private void addNewSessions(JTable table, Set<String> used) {
+    private void addNewSessions(JTable table, HashMap<String, HashSet<Pair<Integer, Integer>>> used) {
         int numOfRows = table.getRowCount();
         String time;
         String day;
@@ -63,14 +66,34 @@ public class SessionsRequestHandler extends Handler {
                 day = (String) table.getValueAt(i,dayIndex);
                 movie = (String) table.getValueAt(i,movieIndex);
                 hall = (String) table.getValueAt(i,hallIndex);
-                if(!checkNulls(new String[]{day,movie,hall}) && !used.contains(day+time+movie+hall)){
+                if(!used.containsKey(hall+day)){
+                    used.put(hall+day, new HashSet<>());
+                }
+                if(!checkNulls(new String[]{day,movie,hall}) && findCollisions(time, movie, used.get(hall + day))){
                     addNewSession(day,time,movie,hall,table.getValueAt(i,priceIndex).toString());
-                    used.add(day+time+movie+hall);
                 }
 
             }
         }
     }
+
+    private boolean findCollisions(String time, String movie, HashSet<Pair<Integer, Integer>> sessions) {
+        Integer duration = Integer.valueOf(getValueByTitle(movie,"duration", "movies"));
+        Integer startTime = getIntTime(time);
+        Integer currStart;
+        Integer currEnd;
+        for (Pair<Integer,Integer> currSession: sessions) {
+            currStart = currSession.getKey();
+            currEnd = currSession.getValue();
+            if(!(startTime+duration <= currStart || startTime >= currEnd)){
+                return false;
+            }
+        }
+        sessions.add(new Pair<>(startTime, startTime+duration));
+        return true;
+
+    }
+
 
     private void addNewSession(String day, String time, String movie, String hall, String price) {
         try {
@@ -93,19 +116,27 @@ public class SessionsRequestHandler extends Handler {
         }
     }
 
-    private void updateExistedSessions(JTable table, Set<Integer> changedRows, Set<String> used) {
+    private void updateExistedSessions(JTable table, Set<Integer> changedRows, HashMap<String, HashSet<Pair<Integer, Integer>>> used) {
         int numOfRows = table.getRowCount();
         String time;
         String day;
         String movie;
         String hall;
+        int intTime;
+        int duration;
         for(int i = 0; i < numOfRows; i++){
             if(!table.getValueAt(i,idIndex).toString().isEmpty() && !changedRows.contains(i)){
                 time = validateTime(table.getValueAt(i, timeIndex));
                 day = (String) table.getValueAt(i,dayIndex);
                 movie = (String) table.getValueAt(i,movieIndex);
                 hall = (String) table.getValueAt(i,hallIndex);
-                used.add(day+time+movie+hall);
+                intTime = getIntTime(time);
+                duration = Integer.parseInt(getValueByTitle(movie, "duration", "movies"));
+                if(!used.containsKey(hall+day)){
+                    used.put(hall+day, new HashSet<>());
+                }
+                used.get(hall+day).add(new Pair<>(intTime,intTime+duration));
+
             }
         }
         for(int i = 0; i < numOfRows; i++){
@@ -114,15 +145,23 @@ public class SessionsRequestHandler extends Handler {
                 day = (String) table.getValueAt(i,dayIndex);
                 movie = (String) table.getValueAt(i,movieIndex);
                 hall = (String) table.getValueAt(i,hallIndex);
-                if(!used.contains(day+time+movie+hall)){
+                if(!used.containsKey(hall+day)){
+                    used.put(hall+day, new HashSet<>());
+                }
+                if(findCollisions(time, movie, used.get(hall + day))){
                     updateSession(String.valueOf(table.getValueAt(i,idIndex)), day,time,movie,hall, String.valueOf(table.getValueAt(i,priceIndex)));
-                    used.add(day+time+movie+hall);
                 }
 
             }
         }
 
     }
+
+    private int getIntTime(String time) {
+        String[] splitTime = time.split(":");
+        return Integer.parseInt(splitTime[0])*60 + Integer.parseInt(splitTime[1]);
+    }
+
     private  void updateSession(String id, String day, String time, String movie, String hall, String price){
         price = validatePrice(price);
         try {

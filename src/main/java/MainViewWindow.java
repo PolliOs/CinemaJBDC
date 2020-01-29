@@ -342,7 +342,7 @@ public class MainViewWindow extends  JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(messageHandler.confirmDeleteValue("фільм")==0){
+                if(messageHandler.confirmDeleteMovie()==0){
                     moviesHandler.deleteMovie((String) selectMovieComboBox.getSelectedItem());
                     updateMoviesTitleComboBox();
                 }
@@ -380,7 +380,7 @@ public class MainViewWindow extends  JFrame {
     }
 
     private void changePanels() {
-        PanelsProcessing(hallsButton, hallsPanel, mainPanel, moviesButton, moviesPanel, sessionsButton, sessionsPanel, mainPanel, backToMainButtonFromHallsButton, backToHallsButton1, hallsPanel, addHallPanel);
+        PanelsProcessing(hallsButton, hallsPanel, mainPanel, moviesButton, moviesPanel, backToMainButtonFromHallsButton, backToHallsButton1, hallsPanel, addHallPanel);
         backToHallsButton2.addActionListener(e -> changeActivePanel(hallsPanel, editHallsPanel));
         addHallButton.addActionListener(e -> changeActivePanel(addHallPanel, hallsPanel));
         changeCurrentHallButton.addActionListener(e -> {
@@ -395,7 +395,13 @@ public class MainViewWindow extends  JFrame {
             updateMoviesTitleComboBox();
             updateSelectedGenresOfMovieList();
         });
-        PanelsProcessing(genresEditButton, genresEditPanel, moviesPanel, backToMainFromMoviesButton, mainPanel, backToMainFromSessionsButton, mainPanel, sessionsPanel, backToMoviesFromGenresEditButton, backToMoviesFromMoviesEditButton, moviesPanel, moviesEditPanel);
+        sessionsButton.addActionListener(e->{
+            changeActivePanel(sessionsPanel,mainPanel);
+            tableCreationHandler.initializeTable();
+            updateSessionTableView();
+        });
+        backToMainFromSessionsButton.addActionListener(e-> changeActivePanel(mainPanel,sessionsPanel));
+        PanelsProcessing(genresEditButton, genresEditPanel, moviesPanel, backToMainFromMoviesButton, mainPanel, backToMoviesFromGenresEditButton, backToMoviesFromMoviesEditButton, moviesPanel, moviesEditPanel);
     }
     private void updateSessionTableView(){
         tableCreationHandler.setUpMovieColumn(sessionsTable.getColumnModel().getColumn(sessionsTable.getColumn("Фільм").getModelIndex()), moviesHandler.getListOf("title"));
@@ -403,10 +409,9 @@ public class MainViewWindow extends  JFrame {
         tableCreationHandler.setUpDaysColumn(sessionsTable.getColumnModel().getColumn(sessionsTable.getColumn("День").getModelIndex()));
     }
 
-    private void PanelsProcessing(JButton hallsButton, JPanel hallsPanel, JPanel mainPanel, JButton moviesButton, JPanel moviesPanel, JButton sessionsButton, JPanel sessionsPanel, JPanel mainPanel2, JButton backToMainButtonFromHallsButton, JButton backToHallsButton1, JPanel hallsPanel2, JPanel addHallPanel) {
+    private void PanelsProcessing(JButton hallsButton, JPanel hallsPanel, JPanel mainPanel, JButton moviesButton, JPanel moviesPanel, JButton backToMainButtonFromHallsButton, JButton backToHallsButton1, JPanel hallsPanel2, JPanel addHallPanel) {
         hallsButton.addActionListener(e -> changeActivePanel(hallsPanel, mainPanel));
         moviesButton.addActionListener(e -> changeActivePanel(moviesPanel, mainPanel));
-        sessionsButton.addActionListener(e -> changeActivePanel(sessionsPanel, mainPanel2));
         backToMainButtonFromHallsButton.addActionListener(e -> changeActivePanel(mainPanel, hallsPanel));
         backToHallsButton1.addActionListener(e -> changeActivePanel(hallsPanel2, addHallPanel));
     }

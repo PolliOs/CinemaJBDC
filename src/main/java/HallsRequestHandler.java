@@ -22,7 +22,7 @@ public class HallsRequestHandler extends Handler {
     }
     public int deleteHall(String id) {
         try {
-            String deleteConnectionsQuery = "DELETE FROM hall_of_session WHERE hall_id = \"" + id + "\"";
+            String deleteConnectionsQuery = "DELETE FROM sessions WHERE hall_id = \"" + id + "\"";
             String deleteHallQuery =
                     "DELETE FROM halls WHERE  id = \"" + id + "\"";
             statement.executeUpdate(deleteConnectionsQuery);
