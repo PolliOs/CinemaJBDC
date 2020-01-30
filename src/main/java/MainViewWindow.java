@@ -70,6 +70,7 @@ public class MainViewWindow extends  JFrame {
     private JButton saveChangesInTableButton;
     private JButton backToMainFromSessionsButton;
     private JButton addRowButton;
+    private JButton helpButton;
     private HallsRequestHandler hallsHandler;
     private  MessageHandler messageHandler;
     private  Statement statement;
@@ -87,6 +88,13 @@ public class MainViewWindow extends  JFrame {
         this.connection = connection;
         initialize();
         buttonsProcessing();
+        helpButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                messageHandler.helpMessage();
+            }
+        });
     }
 
     private void initialize(){
