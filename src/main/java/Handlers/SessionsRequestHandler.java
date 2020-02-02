@@ -1,3 +1,6 @@
+package Handlers;
+
+import Handlers.Handler;
 import javafx.util.Pair;
 
 import javax.swing.*;
@@ -18,7 +21,7 @@ public class SessionsRequestHandler extends Handler {
     private static int priceIndex;
     private static final String defaultPrice = "50";
     private static final String defaultTime = "10:00";
-    SessionsRequestHandler(Statement statement, Connection connection, JTable table) {
+    public SessionsRequestHandler(Statement statement, Connection connection, JTable table) {
         super("sessions", statement, connection);
         idIndex = table.getColumn("ID").getModelIndex();
         hallIndex = table.getColumn("Зал").getModelIndex();

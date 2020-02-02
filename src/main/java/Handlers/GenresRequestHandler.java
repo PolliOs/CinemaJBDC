@@ -1,3 +1,7 @@
+package Handlers;
+
+import Handlers.Handler;
+
 import java.sql.*;
 
 public class GenresRequestHandler extends Handler {

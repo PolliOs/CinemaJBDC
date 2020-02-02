@@ -1,3 +1,5 @@
+package Handlers;
+
 import javax.swing.*;
 
 public class MessageHandler {

@@ -1,3 +1,5 @@
+package ViewWindow;
+
 import javax.swing.*;
 import java.awt.*;
 

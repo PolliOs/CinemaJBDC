@@ -1,3 +1,7 @@
+package ViewWindow;
+
+import Handlers.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
 public class MainViewWindow extends  JFrame {
-    JFrame frame;
+    public JFrame frame;
     private  JPanel adminPanel;
     private  JPanel hallsPanel;
     private JPanel mainPanel;
@@ -72,7 +76,7 @@ public class MainViewWindow extends  JFrame {
     private JButton addRowButton;
     private JButton helpButton;
     private HallsRequestHandler hallsHandler;
-    private  MessageHandler messageHandler;
+    private MessageHandler messageHandler;
     private  Statement statement;
     private  Connection connection;
     private GenresRequestHandler genresHandler;

@@ -1,3 +1,7 @@
+package Handlers;
+
+import ViewWindow.SessionsTableModel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -6,13 +10,14 @@ import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 public class TableCreationHandler {
-    public  SessionsTableModel table;
+    public SessionsTableModel table;
     private static int numOfColumns = 7;
     private Connection connection;
     ArrayList<Object[]> dataArrayList = new ArrayList<>();
 
-    TableCreationHandler(Connection connection){
+    public TableCreationHandler(Connection connection){
         this.connection = connection;
         table = new SessionsTableModel();
         initializeTable();
@@ -127,7 +132,7 @@ public class TableCreationHandler {
         daysColumn.setCellRenderer(renderer);
     }
 
-    void setUpHallsColumn(TableColumn hallsColumn, ArrayList<String> halls) {
+    public void setUpHallsColumn(TableColumn hallsColumn, ArrayList<String> halls) {
         JComboBox<String> comboBox = new JComboBox<>();
         for(String hall:halls) {
             comboBox.addItem(hall);

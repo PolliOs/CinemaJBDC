@@ -1,8 +1,10 @@
+package ViewWindow;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.HashSet;
 import java.util.Set;
 
-class SessionsTableModel extends AbstractTableModel {
+public class SessionsTableModel extends AbstractTableModel {
     public static String defaultTime = "10:00";
     public static String defaultPrice = "50";
     public Set<Integer> changedRows = new HashSet<>();
