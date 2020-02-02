@@ -300,6 +300,8 @@ public class MainViewWindow extends  JFrame {
                     if(messageHandler.confirmChanges()==0){
                         if(moviesHandler.checkNulls(new String[]{newTitle, year, duration})){
                             messageHandler.emptyToAddError();
+                        }else if(moviesHandler.checkYear(year)){
+                            messageHandler.invalidIntValue("рік");
                         }
                         else {
                             moviesHandler.changeMovie(currMovieTitle, newTitle, year, duration);
@@ -331,8 +333,7 @@ public class MainViewWindow extends  JFrame {
             }
 
             private void tryToChangeAddMovieFields(String year, String duration, String newTitle) {
-                int yearInt = moviesHandler.checkInt(year);
-                if(yearInt < 1900 || yearInt > 2020){
+                if(moviesHandler.checkYear(year)){
                     messageHandler.invalidIntValue("Рік");
                     return;
                 }

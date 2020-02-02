@@ -1,11 +1,10 @@
 package Handlers;
 
-import Handlers.Handler;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Date;
 
 public class MoviesRequestHandler extends Handler {
     public Set<Integer> currentSelectedGenresForMovie;
@@ -131,4 +130,10 @@ public class MoviesRequestHandler extends Handler {
     }
 
 
+    public boolean checkYear(String year) {
+        Date currDate = new Date();
+        int currentYear =currDate.getYear() + 1900;
+        int yearInt = checkInt(year);
+        return (yearInt <= 1900 || yearInt > currentYear);
+    }
 }
